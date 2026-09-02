@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # SERVIÇO 1: O BANCO DE DADOS
+  db:
+    image: postgres:16
+    container_name: bronze_postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+      POSTGRES_DB: arbitragem_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # SERVIÇO 2: O SEU CÓDIGO PYTHON
+  crawler:
+    build: . 
+    container_name: bronze_crawler
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=admin
+      - DB_PASSWORD=adminpassword
+      - DB_NAME=arbitragem_db
+    volumes:
+      - .:/app
+    command: tail -f /dev/null
+
+volumes:
+  postgres_data:do
