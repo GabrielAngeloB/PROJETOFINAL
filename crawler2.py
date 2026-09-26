@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 from db import init_db, marcar_imoveis_vendido, salvar_lote_bronze
 
+#AGORA EU DEVO FAZER COM QUE ELE VA EM TODAS AS PAGINAS E TODOS AS LOCALIDADES E ETC
+
 # Listas ordenadas do maior para o menor para evitar sobreposição
 TIPOS_IMOVEL = [
     "PONTO COMERCIAL", "CASA CONDOMINIO", "HOTEL-FLAT", "LOTEAMENTO", "APARTAMENTO", 
