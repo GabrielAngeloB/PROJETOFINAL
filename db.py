@@ -67,3 +67,21 @@ def salvar_imovel_bronze(dados: dict):
                 ),
             )
         conn.commit()
+
+def marcar_imoveis_vendido(urls_coletadas):
+    if not urls_coletadas:
+        print("Nenhuma URL coletada para marcar como vendida.")
+        return
+    query = """
+    UPDATE bronze_dfimoveis
+    SET vendido = TRUE
+    WHERE NOT (url_origem = ANY(%s)) 
+    AND vendido = FALSE;
+    """
+    #caso o url_origem não esteja na lista de URLs coletadas (ANY(%s)), marca como vendido
+    with get_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(query, (urls_coletadas,))
+            afetados = cursor.rowcount
+        conn.commit()
+    print(f" Marcados como VENDIDOS: {afetados} imóvel(is) que sumiram do site.")

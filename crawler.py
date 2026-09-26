@@ -1,5 +1,9 @@
+from urllib.parse import urljoin
+
 from playwright.sync_api import sync_playwright
 from db import init_db, salvar_imovel_bronze
+
+urls_coletadas_hoje = []
 init_db()
 
 with sync_playwright() as p:
@@ -28,6 +32,7 @@ with sync_playwright() as p:
         info = card.locator(".imovel-feature .rounded-pill")
         href_relativo = card.locator("a").get_attribute("href")
         url_completa = f"https://www.dfimoveis.com.br{href_relativo}"
+        urls_coletadas_hoje.append(url_completa)
         
         # Validação de existência antes de extrair
         tamanho = info.nth(0).inner_text() if info.count() > 0 else "N/A"
