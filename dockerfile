@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # 5. Fica aguardando. Quando o contêiner ligar, ele vai rodar o seu script
-CMD ["python", "crawler.py"]
+CMD ["python", "crawler2.py"]
